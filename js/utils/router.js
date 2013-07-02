@@ -1,9 +1,10 @@
 define([
-  'views/IndexView',
-  ], function (IndexView) {
+  'views/index/IndexView',
+  'views/timer/TimerView',
   'jquery',
   'underscore',
   'backbone'
+  ], function (IndexView, TimerView) {
 
     var exports = {},
         AppRouter = Backbone.Router.extend({
@@ -18,6 +19,7 @@ define([
 
       appRouter.on("route:defaultAction", function (actions) {
         var indexView = new IndexView();
+
         indexView.render();
       });
 
