@@ -1,9 +1,9 @@
 define([
+  'utils/router',
   'libs/jquery',
   'libs/underscore',
-  'libs/backbone',
-  'router'
-  ], function ($, _, Backbone, Router) {
+  'libs/backbone'
+  ], function (Router) {
     
     var exports = {};
 
