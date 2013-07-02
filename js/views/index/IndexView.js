@@ -1,8 +1,9 @@
 define([
-  'utils/text!templates/indexTmpl.html',
-  'libs/jquery',
-  'libs/underscore',
-  'libs/backbone'
+  'plugins/text!templates/index/indexTmpl.html',
+  'plugins/backbone-mediator',
+  'jquery',
+  'underscore',
+  'backbone'
   ], function (indexTmpl) {
 
     var IndexView = Backbone.View.extend({
