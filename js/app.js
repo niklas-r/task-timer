@@ -5,9 +5,8 @@ define(
     
     var exports = {};
 
-    exports.init = function () {
-      Router.init();
-    };
+    exports.init = Router.init;
+    exports.helpers = helpers;
 
     return exports;
 });
