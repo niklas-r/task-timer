@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone'
-  ], function ($, _, Backbone) {
+  ], function () {
     var exports = {};
 
     // Write magic...

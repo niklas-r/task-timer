@@ -1,9 +1,9 @@
 define([
+  'views/IndexView',
   'libs/jquery',
   'libs/underscore',
-  'libs/backbone',
-  'views/IndexView'
-  ], function ($, _, Backbone, IndexView) {
+  'libs/backbone'
+  ], function (IndexView) {
 
     var exports = {},
         AppRouter = Backbone.Router.extend({
