@@ -1,9 +1,7 @@
-define([
-  'utils/router',
-  'libs/jquery',
-  'libs/underscore',
-  'libs/backbone'
-  ], function (Router) {
+define(
+  [ 'utils/router',
+    'utils/helpers'
+  ], function (Router, helpers) {
     
     var exports = {};
 

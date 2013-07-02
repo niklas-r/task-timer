@@ -1,28 +1,25 @@
 requirejs.config({
   baseUrl: 'js',
   paths: {
-    'collections': 'collections',
-    'libs': 'libs',
-    'models': 'models',
-    'routes': 'routes',
-    'utils': 'utils',
-    'views': 'views',
+    'jquery': 'libs/jquery',
+    'underscore': 'libs/underscore',
+    'backbone': 'libs/backbone',
     'templates': '../templates'
   },
   // register dependecies for non-AMD script
   shim : {
-    'libs/backbone': {
+    'backbone': {
       //These script dependencies should be loaded before loading
       //backbone.js
-      deps: ['libs/underscore', 'libs/jquery'],
+      deps: ['underscore', 'jquery'],
       //Once loaded, use the global 'Backbone' as the
       //module value.
       exports: 'Backbone'
     },
-    'libs/underscore': {
+    'underscore': {
       exports: '_'
     },
-    'libs/jquery': {
+    'jquery': {
       exports: '$'
     }
   }

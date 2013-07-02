@@ -1,11 +1,7 @@
-define([
-  'jquery',
-  'underscore',
-  'backbone'
-  ], function () {
+define(['module'], function ('module') {
     var exports = {};
 
-    // Write magic...
+    // Write some helpers
 
     return exports;
 });
