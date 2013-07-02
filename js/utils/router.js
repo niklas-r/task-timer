@@ -18,7 +18,8 @@ define([
       var appRouter = new AppRouter;
 
       appRouter.on("route:defaultAction", function (actions) {
-        var indexView = new IndexView();
+        var timerView = new TimerView(),
+            indexView = new IndexView();
 
         indexView.render();
       });

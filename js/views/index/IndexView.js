@@ -17,6 +17,11 @@ define([
 
       render : function () {
         this.$el.html(this.template);
+
+        // Trigger event to render timer
+        Backbone.Mediator.pub("timer:large", {
+          el: "#main #timer"
+        });
         return this;
       }
     });
