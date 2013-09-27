@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html ng-app="TaskTimer" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html ng-app="TaskTimer" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html ng-app="TaskTimer" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="TaskTimer" class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,12 +10,20 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <script data-main="js/main.js" src="js/libs/require.js"></script>
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="stylesheets/css/main.css">
     </head>
-    <body>
-        <div id="container">
-            <div id="main"></div>
-        </div>
+    <body ng-controller="AppCtrl">
+
+        <ui-view></ui-view>
+
+        <script src="vendor/js/jquery.js"></script>
+        <script src="vendor/js/angular.1.1.5.js"></script>
+        <script src="vendor/js/angular-ui-router.0.2.0.js"></script>
+
+        <script src="app/app.js"></script>
+
+        <!-- Controllers -->
+        <script src="app/AppCtrl.js"></script>
+        <script src="app/index/IndexCtrl.js"></script>
     </body>
 </html>
