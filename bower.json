@@ -12,11 +12,11 @@
     "countdown"
   ],
   "dependencies": {
-    "angular": "1.2.0-rc.2",
-    "angular-ui-router": "*",
-    "bootstrap-css": "<=3.0.0",
-    "jquery": "*",
-    "normalize-scss": "*"
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "jquery": "latest",
+    "bootstrap-sass": "latest",
+    "bourbon": "latest"
   },
   "license": "MIT",
   "private": true,
