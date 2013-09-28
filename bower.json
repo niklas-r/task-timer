@@ -1,0 +1,29 @@
+{
+  "name": "Task timer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/niklas-r/task-timer",
+  "authors": [
+    "Niklas Rasmusson <niklas.rasmusson@gmail.com>"
+  ],
+  "description": "A simple task timer/countdown app",
+  "main": "index.html",
+  "keywords": [
+    "timer",
+    "countdown"
+  ],
+  "dependencies": {
+    "angular": "1.2.0-rc.2",
+    "angular-ui-router": "*",
+    "jquery": "*",
+    "normalize-scss": "*"
+  },
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
