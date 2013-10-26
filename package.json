@@ -1,0 +1,17 @@
+{
+  "name": "Task timer",
+  "version": "0.0.0",
+  "author": "Niklas Rasmusson <niklas.rasmusson@gmail.com>",
+  "description": "A simple task timer/countdown app",
+  "contributors": [
+    {
+      "name": "Niklas Rasmusson",
+      "email": "niklas.rasmusson@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/niklas-r/task-timer"
+  },
+  "license": "MIT"
+}
