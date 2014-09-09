@@ -1,7 +1,18 @@
 angular.module( 'taskTimer', [
+  /////////////////////////////
+  // Top modules with routes //
+  /////////////////////////////
+  'taskTimer.home',
+
+  //////////////////////
+  // Template modules //
+  //////////////////////
   'templates-app',
   'templates-common',
-  'taskTimer.home',
+
+  /////////////////////////
+  // Third party modules //
+  /////////////////////////
   'ui.router'
 ])
 
@@ -10,9 +21,11 @@ angular.module( 'taskTimer', [
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | Task timer' ;
     }
   });
+
 });

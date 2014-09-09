@@ -7,7 +7,7 @@ angular.module( 'taskTimer.home', [
     url: '/home',
     views: {
       "main": {
-        controller: 'HomeCtrl',
+        controller: 'HomeCtrl as homeCtrl',
         templateUrl: 'home/home.tpl.html'
       }
     },
@@ -17,5 +17,6 @@ angular.module( 'taskTimer.home', [
   });
 })
 
-.controller( 'HomeCtrl', function HomeController( $scope ) {
+.controller( 'HomeCtrl', function HomeController( ) {
+
 });
