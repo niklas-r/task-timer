@@ -1,17 +1,33 @@
 {
-  "name": "Task timer",
-  "version": "0.0.0",
   "author": "Niklas Rasmusson <niklas.rasmusson@gmail.com>",
+  "name": "task-timer",
+  "version": "0.0.1",
   "description": "A simple task timer/countdown app",
-  "contributors": [
-    {
-      "name": "Niklas Rasmusson",
-      "email": "niklas.rasmusson@gmail.com"
-    }
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/niklas-r/task-timer"
   },
-  "license": "MIT"
+  "licenses": {
+    "type": "MIT",
+    "url": "https://raw.github.com/ngbp/ngbp/master/LICENSE"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "^0.4.1",
+    "grunt-contrib-concat": "^0.3.0",
+    "grunt-contrib-connect": "^0.8.0",
+    "grunt-contrib-copy": "^0.4.1",
+    "grunt-contrib-jshint": "^0.4.3",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-uglify": "^0.2.7",
+    "grunt-contrib-watch": "^0.4.4",
+    "grunt-html2js": "^0.1.9",
+    "grunt-karma": "^0.8.2",
+    "grunt-ngmin": "0.0.2",
+    "karma": "^0.12.9",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "load-grunt-tasks": "^0.6.0"
+  }
 }
