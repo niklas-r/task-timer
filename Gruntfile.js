@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function ( grunt ) {
 
   /**
@@ -224,15 +226,46 @@ module.exports = function ( grunt ) {
         'Gruntfile.js'
       ],
       options: {
+        boss: true,
         curly: true,
+        eqnull: true,
+        es5: true,
+        expr: true,
+        globalstrict: true,
         immed: true,
         newcap: true,
         noarg: true,
+        strict: true,
         sub: true,
-        boss: true,
-        eqnull: true
-      },
-      globals: {}
+        devel: true,
+        browser: true,
+        jquery: true,
+        globals: {
+          // Angular
+          angular: true,
+          // Underscore / Lodash
+          _: true,
+          // AMD
+          require: true,
+          define: true,
+          // Angular mocks
+          module: true,
+          inject: true,
+          // Mocha
+          before: true,
+          beforeEach: true,
+          after: true,
+          afterEach: true,
+          describe: true,
+          ddescribe: true,
+          xdescribe: true,
+          it: true,
+          iit: true,
+          xit: true,
+          expect: true,
+          done: true
+        }
+      }
     },
 
     /**

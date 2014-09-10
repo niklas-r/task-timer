@@ -1,17 +1,14 @@
-describe( 'AppCtrl', function() {
-  describe( 'isCurrentUrl', function() {
-    var AppCtrl, $location, $scope;
+'use strict';
 
-    beforeEach( module( 'taskTimer' ) );
+describe('module: taskTimer', function() {
 
-    beforeEach( inject( function( $controller, _$location_, $rootScope ) {
-      $location = _$location_;
-      $scope = $rootScope.$new();
-      AppCtrl = $controller( 'AppCtrl', { $location: $location, $scope: $scope });
-    }));
+  beforeEach(module('taskTimer'));
 
-    it( 'should pass a dummy test', inject( function() {
-      expect( AppCtrl ).toBeTruthy();
-    }));
+  describe('controller: AppCtrl', function() {
+
+    it("should pass a dummy test", function() {
+      expect(true).to.be.true;
+    });
+
   });
 });

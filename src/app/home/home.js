@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module( 'taskTimer.home', [
   'ui.router'
 ])

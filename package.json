@@ -13,6 +13,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "chai": "^1.9.1",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "^0.4.1",
     "grunt-contrib-concat": "^0.3.0",
@@ -26,8 +27,12 @@
     "grunt-karma": "^0.8.2",
     "grunt-ngmin": "0.0.2",
     "karma": "^0.12.9",
-    "karma-jasmine": "^0.1.5",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.1.9",
     "karma-phantomjs-launcher": "^0.1.4",
-    "load-grunt-tasks": "^0.6.0"
+    "karma-sinon": "^1.0.3",
+    "load-grunt-tasks": "^0.6.0",
+    "mocha": "^1.21.4",
+    "sinon": "^1.10.3"
   }
 }

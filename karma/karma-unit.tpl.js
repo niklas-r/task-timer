@@ -13,16 +13,27 @@ module.exports = function ( karma ) {
       <% }); %>
       'src/**/*.js'
     ],
+
     exclude: [
       'src/assets/**/*.js'
     ],
-    frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-phantomjs-launcher' ],
+
+    frameworks: [
+        'mocha',
+        'chai'
+    ],
+
+    plugins: [
+        'karma-mocha',
+        'karma-chai',
+        'karma-sinon',
+        'karma-phantomjs-launcher'
+    ],
 
     /**
      * How to report, by default.
      */
-    reporters: 'dots',
+    reporters: 'progress',
 
     /**
      * On which port should the browser connect, on which port is the test runner

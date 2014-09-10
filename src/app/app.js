@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module( 'taskTimer', [
   /////////////////////////////
   // Top modules with routes //
