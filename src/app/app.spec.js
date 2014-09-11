@@ -6,9 +6,5 @@ describe('module: taskTimer', function() {
 
   describe('controller: AppCtrl', function() {
 
-    it("should pass a dummy test", function() {
-      expect(true).to.be.true;
-    });
-
   });
 });

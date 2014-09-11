@@ -251,6 +251,8 @@ module.exports = function ( grunt ) {
           // Angular mocks
           module: true,
           inject: true,
+          // Sinon
+          sinon: true,
           // Mocha
           before: true,
           beforeEach: true,
