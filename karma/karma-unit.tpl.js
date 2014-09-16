@@ -21,13 +21,15 @@ module.exports = function ( karma ) {
     frameworks: [
         'mocha',
         'chai',
-        'sinon'
+        'sinon',
+        'sinon-chai'
     ],
 
     plugins: [
         'karma-mocha',
         'karma-chai',
         'karma-sinon',
+        'karma-sinon-chai',
         'karma-phantomjs-launcher'
     ],
 
