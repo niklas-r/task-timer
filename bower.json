@@ -2,7 +2,8 @@
   "name": "Task timer",
   "version": "0.0.1",
   "devDependencies": {
-    "angular-mocks": "~1.2"
+    "angular-mocks": "~1.2",
+    "es5-shim": "~4.0.3"
   },
   "dependencies": {
     "angular": "~1.2",
