@@ -2,22 +2,19 @@
   'use strict';
   var app;
 
-  app = angular.module('taskTimer.stopWatch', []);
+  app = angular.module('taskTimer.stopWatch', [
+    'taskTimer.clock'
+  ]);
 
   // @ngInject
-  function StopWatchFactory ($timeout) {
+  function StopWatchFactory (Clock) {
 
     function StopWatch () {
-      this.elapsedTime = 0;
+      Clock.call(this, 'increase');
     }
 
-    StopWatch.prototype.start = function () {
-      $timeout(
-        (function () {
-          this.elapsedTime += 1000;
-        }).apply(this),
-      1000);
-    };
+    StopWatch.prototype = Object.create(Clock.prototype);
+    StopWatch.prototype.constructor = StopWatch;
 
     return StopWatch;
   }
