@@ -6,19 +6,19 @@ describe('module: taskTimer.clock', function () {
 
   describe('class: Clock', function () {
 
-    function setupClock(Clock, timeDirection) {
+    function setupClock(Clock, countUp) {
       return new Clock(
         'Writing tests', // label
-        timeDirection // timeDirection
+        countUp // countUp
       );
     }
 
     function setupClockIncrease (Clock) {
-      return setupClock(Clock, 'increase');
+      return setupClock(Clock, true);
     }
 
     function setupClockDecrease (Clock) {
-      return setupClock(Clock, 'decrease');
+      return setupClock(Clock, false);
     }
 
     it('should be a "class"', inject (function (Clock) {
@@ -29,29 +29,40 @@ describe('module: taskTimer.clock', function () {
       expect(clock).to.be.an.instanceof(Clock);
     }));
 
-    it('should have a label', inject(
-      function (Clock) {
-        var clock;
+    describe('properties', function () {
+      it('should have a label', inject(
+        function (Clock) {
+          var clock;
 
-        clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(Clock);
 
-        expect(clock).to.have.property('label', 'Writing tests');
-      })
-    );
+          expect(clock).to.have.property('label', 'Writing tests');
+        })
+      );
 
-    it(
-      'should be able to count up and down',
-      inject( function (Clock) {
-        var clockIncrease,
-            clockDecrease ;
+      it(
+        'should be able to count up and down',
+        inject( function (Clock) {
+          var clockIncrease,
+              clockDecrease ;
 
-        clockIncrease = setupClockIncrease(Clock);
-        clockDecrease = setupClockDecrease(Clock);
+          clockIncrease = setupClockIncrease(Clock);
+          clockDecrease = setupClockDecrease(Clock);
 
-        expect(clockIncrease).to.have.property('timeDirection', 'increase');
-        expect(clockDecrease).to.have.property('timeDirection', 'decrease');
-      })
-    );
+          expect(clockIncrease).to.have.property('countUp', true);
+          expect(clockDecrease).to.have.property('countUp', false);
+        })
+      );
+
+      it('should have an interval ID', inject(
+        function (Clock) {
+          var clock;
+
+          clock = setupClockIncrease(Clock);
+          expect(clock).to.have.property("intervalId");
+        })
+      );
+    });
 
     describe('actions', function () {
 
@@ -99,6 +110,22 @@ describe('module: taskTimer.clock', function () {
 
           this.clock.tick(200);
           expect(clock.time).to.equal(400);
+
+          this.clock.restore();
+        })
+      );
+
+      it('should keep track of when clock was started', inject(
+        function (Clock) {
+          var clock;
+
+          this.clock = sinon.useFakeTimers(1500);
+          clock = setupClockIncrease(Clock);
+
+          clock.start();
+          expect(clock.startTimestamp).to.equal(1500);
+          this.clock.tick(200);
+          expect(clock.startTimestamp).to.equal(1700);
 
           this.clock.restore();
         })

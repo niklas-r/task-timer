@@ -1,0 +1,19 @@
+<h1>home</h1>
+
+<h2>Testing clocks</h2>
+
+<form name="newCLockForm" ng-submit="homeCtrl.addNewStopWatch(homeCtrl.newClockLabel)">
+  <input type="text" ng-model="homeCtrl.newClockLabel">
+  <button type="submit">New stopwatch</button>
+</form>
+<ul>
+  <li ng-repeat="clock in homeCtrl.clockCollection">
+    {{clock.label}} - {{clock.time | millisecondsToTimeString}}
+    <div ng-switch on="clock.state">
+      <button ng-switch-when="ticking" ng-click="clock.pause()">Pause</button>
+      <button ng-switch-when="paused" ng-click="clock.unpause()">Unpause</button>
+      <button ng-switch-default ng-click="clock.start()">Start</button>
+    </div>
+    <button ng-click="homeCtrl.removeClock(clock)">Remove</button>
+  </li>
+</ul>

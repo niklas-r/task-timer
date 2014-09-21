@@ -1,33 +1,29 @@
-'use strict';
+(function (angular) {
+  'use strict';
 
-angular.module( 'taskTimer', [
-  /////////////////////////////
-  // Top modules with routes //
-  /////////////////////////////
-  'taskTimer.home',
+  angular.module( 'taskTimer', [
+    /////////////////////////////
+    // Top modules with routes //
+    /////////////////////////////
+    'taskTimer.home',
 
-  //////////////////////
-  // Template modules //
-  //////////////////////
-  'templates-app',
-  'templates-common',
+    //////////////////////
+    // Template modules //
+    //////////////////////
+    'templates-app',
+    'templates-common',
 
-  /////////////////////////
-  // Third party modules //
-  /////////////////////////
-  'ui.router'
-])
+    /////////////////////////
+    // Third party modules //
+    /////////////////////////
+    'ui.router'
+  ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/home' );
-})
+  .config( function myAppConfig ( $urlRouterProvider ) {
+    $urlRouterProvider.otherwise( '/home' );
+  })
 
-.controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+  .controller( 'AppCtrl', function AppCtrl ( StopWatch ) {
 
-  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-    if ( angular.isDefined( toState.data.pageTitle ) ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | Task timer' ;
-    }
   });
-
-});
+}(angular));

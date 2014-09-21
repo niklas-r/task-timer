@@ -6,11 +6,26 @@
     'taskTimer.clock'
   ]);
 
-  // @ngInject
+  /**
+   * The StopWatch class
+   * @typedef {object} Clock.StopWatch
+   */
+
+  /**
+   * StopWatch factory
+   * @param {Clock} Clock The Clock class
+   * @return {Clock.StopWatch}
+   */
   function StopWatchFactory (Clock) {
 
-    function StopWatch () {
-      Clock.call(this, 'increase');
+    /**
+     * Creates a StopWatch
+     * @constructor
+     * @extends Clock
+     * @param {string} label A descriptive label
+     */
+    function StopWatch (label) {
+      Clock.call(this, label, true);
     }
 
     StopWatch.prototype = Object.create(Clock.prototype);
