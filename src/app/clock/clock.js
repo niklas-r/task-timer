@@ -1,8 +1,9 @@
 (function (angular) {
   'use strict';
-  var app;
+  var clockModule;
 
-  app = angular.module('taskTimer.clock', []);
+  clockModule = angular.module('taskTimer.clock', []);
+
   /**
    * A clock factory from which new clocks can be instantiated
    * @param {angular.$rootScope} $rootScope
@@ -134,6 +135,6 @@
     };
   }
 
-  app.factory('clock', clockFactory);
+  clockModule.factory('clock', clockFactory);
 
 }(angular));

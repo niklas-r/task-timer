@@ -2,7 +2,7 @@
 
 describe('module: taskTimer.stopWatch', function () {
 
-  beforeEach(module('taskTimer.stopWatch'));
+  beforeEach(module('taskTimer.clock.stopWatch'));
 
   describe('object: stopWatch', function () {
     var setupClockObject;

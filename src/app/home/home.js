@@ -33,7 +33,11 @@
     vm.clockCollection = [];
 
     vm.addNewStopWatch = function (label) {
-      clockCollection.addNewStopWatch(label);
+
+      clockCollection.addNewStopWatch({
+        label: label
+      });
+
       vm.newClockLabel = '';
     };
 

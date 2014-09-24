@@ -7,7 +7,7 @@ describe('module: taskTimer.clockCollection', function () {
     var stubStopWatch;
 
     stubStopWatch = module(function ($provide) {
-      $provide.value('StopWatch', sinon.stub());
+      $provide.value('stopWatch', sinon.stub());
     });
 
     it('should get the collection of Clocks', function () {
@@ -21,29 +21,29 @@ describe('module: taskTimer.clockCollection', function () {
     it('should add stop watches to the collection', function () {
       stubStopWatch();
 
-      inject(function (clockCollection, StopWatch) {
+      inject(function (clockCollection, stopWatch) {
         var collection;
 
         collection = clockCollection.collection;
         clockCollection.addNewStopWatch('stop watch name');
 
-        expect(StopWatch).to.have.been.calledWithExactly('stop watch name');
-        expect(collection[0]).to.be.an.instanceof(StopWatch);
+        expect(stopWatch).to.have.been.calledWithExactly('stop watch name');
+        expect(clockCollection.collection.length).to.equal(1);
       });
     });
 
     it('should remove clock from collection by reference', function () {
       stubStopWatch();
 
-      inject(function (clockCollection, StopWatch) {
+      inject(function (clockCollection, stopWatch) {
         var collection,
             swToBeRemoved;
 
         collection = clockCollection.collection;
 
-        StopWatch.onFirstCall().returns({label: 'sw1'});
-        StopWatch.onSecondCall().returns({label: 'sw2'});
-        StopWatch.onThirdCall().returns({label: 'sw3'});
+        stopWatch.onFirstCall().returns({label: 'sw1'});
+        stopWatch.onSecondCall().returns({label: 'sw2'});
+        stopWatch.onThirdCall().returns({label: 'sw3'});
 
         clockCollection.addNewStopWatch('sw1');
         clockCollection.addNewStopWatch('sw2');
@@ -54,6 +54,30 @@ describe('module: taskTimer.clockCollection', function () {
         expect(collection).to.contain(swToBeRemoved);
         clockCollection.remove(swToBeRemoved);
         expect(collection).not.to.contain(swToBeRemoved);
+      });
+    });
+
+    it('should return reference to removed object', function () {
+      stubStopWatch();
+
+      inject(function (clockCollection, stopWatch) {
+        var collection,
+            swToBeRemoved,
+            removedSw;
+
+        collection = clockCollection.collection;
+
+        stopWatch.returns({label: 'Stopwatch'});
+
+        clockCollection.addNewStopWatch('Stopwatch');
+
+        swToBeRemoved = collection[0];
+
+        removedSw = clockCollection.remove(swToBeRemoved);
+
+        expect(removedSw).to.not.be.undefined;
+        expect(swToBeRemoved).to.not.be.undefined;
+        expect(removedSw).to.equal(swToBeRemoved);
       });
     });
 

@@ -23,7 +23,7 @@
     $urlRouterProvider.otherwise( '/home' );
   })
 
-  .controller( 'AppCtrl', function AppCtrl ( StopWatch ) {
+  .controller( 'AppCtrl', function AppCtrl ( ) {
 
   });
 }(angular));

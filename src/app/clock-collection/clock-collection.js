@@ -3,39 +3,56 @@
   var clockCollectionModule;
 
   clockCollectionModule = angular.module('taskTimer.clockCollection', [
-    'taskTimer.stopWatch'
+    'taskTimer.clock.stopWatch'
   ]);
 
-  // @ngInject
-  function clockCollection(StopWatch) {
-    var _addNewStopWatch,
-        _collection,
-        _remove;
+  /**
+   * Clock collection
+   * @param  {stopWatch}
+   * @return {clockCollection}
+   */
+  function clockCollectionFactory(stopWatch) {
+    var clockCollection;
 
-    _collection = [];
+    /**
+     * Clock collection namespace
+     * @namespace
+     */
+    clockCollection = {};
 
-    _addNewStopWatch = function (label) {
-      _collection.push(new StopWatch(label));
+    /**
+     * Collection of clocks
+     * @type {Array}
+     */
+    clockCollection.collection = [];
+
+    /**
+     * Add a new stop watch to the collection
+     * @param {stopWatchSettings}
+     */
+    clockCollection.addNewStopWatch = function (stopWatchSettings) {
+      clockCollection.collection.push(stopWatch(stopWatchSettings));
     };
 
-    _remove = function (clock) {
-      var index;
+    /**
+     * Remove clock from collection by object reference
+     * @param  {clock} clock
+     * @return {clock} Removed clock
+     */
+    clockCollection.remove = function (clock) {
+      var index,
+          removedItems;
 
-      index = _collection.indexOf(clock);
+      index = clockCollection.collection.indexOf(clock);
 
       if ( index === -1 ) { return; }
 
-      return _collection.splice(index, 1);
+      return clockCollection.collection.splice(index, 1)[0];
     };
 
-    return {
-      get collection() {
-        return _collection;
-      },
-      addNewStopWatch: _addNewStopWatch,
-      remove: _remove
-    };
+    return clockCollection;
   }
 
-  clockCollectionModule.service('clockCollection', clockCollection);
+  clockCollectionModule.service('clockCollection', clockCollectionFactory);
+
 }(angular));
