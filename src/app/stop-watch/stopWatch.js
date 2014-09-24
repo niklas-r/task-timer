@@ -6,34 +6,23 @@
     'taskTimer.clock'
   ]);
 
-  /**
-   * The StopWatch class
-   * @typedef {object} Clock.StopWatch
-   */
+  // TODO: add jsdoc comments
+  function stopWatchFactory (clock) {
 
-  /**
-   * StopWatch factory
-   * @param {Clock} Clock The Clock class
-   * @return {Clock.StopWatch}
-   */
-  function StopWatchFactory (Clock) {
+    return function stopWatchConstructor (settings) {
+      var _settings,
+          stopWatch;
 
-    /**
-     * Creates a StopWatch
-     * @constructor
-     * @extends Clock
-     * @param {string} label A descriptive label
-     */
-    function StopWatch (label) {
-      Clock.call(this, label, true);
-    }
+      _settings = angular.copy(settings);
+      _settings.countUp = true;
 
-    StopWatch.prototype = Object.create(Clock.prototype);
-    StopWatch.prototype.constructor = StopWatch;
+      stopWatch = clock(_settings);
 
-    return StopWatch;
+      return stopWatch;
+    };
+
   }
 
-  app.factory('StopWatch', StopWatchFactory);
+  app.factory('stopWatch', stopWatchFactory);
 
 }(angular));

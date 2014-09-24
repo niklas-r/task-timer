@@ -4,46 +4,27 @@ describe('module: taskTimer.stopWatch', function () {
 
   beforeEach(module('taskTimer.stopWatch'));
 
-  describe('class: StopWatch', function () {
-    var setupClockClass;
+  describe('object: stopWatch', function () {
+    var setupClockObject;
 
-    setupClockClass = module(function ($provide) {
-      $provide.value('Clock', sinon.stub());
+    setupClockObject = module(function ($provide) {
+      $provide.value('clock', sinon.stub());
     });
 
-    it('should have Clock as super class', function () {
-      setupClockClass();
+    it('should call clock constructor', function () {
+      setupClockObject();
 
-      inject(function (Clock, StopWatch) {
+      inject(function (clock, _stopWatch_) {
         var stopWatch;
 
-        stopWatch = new StopWatch('my label');
+        stopWatch = _stopWatch_({
+          label: 'My Stopwatch'
+        });
 
-        expect(stopWatch).to.be.an.instanceof(Clock);
-      });
-    });
-
-    it('should call Clock properly', function () {
-      setupClockClass();
-
-      inject(function (Clock, StopWatch) {
-        var stopWatch;
-
-        stopWatch = new StopWatch('my label');
-
-        expect(Clock).to.have.been.calledWith('my label', true);
-      });
-    });
-
-    it('should be its own class', function () {
-      setupClockClass();
-
-      inject(function (StopWatch) {
-        var stopWatch;
-
-        stopWatch = new StopWatch();
-
-        expect(stopWatch).to.be.an.instanceof(StopWatch);
+        expect(clock).to.have.been.calledWith({
+          label: 'My Stopwatch',
+          countUp: true
+        });
       });
     });
   });
