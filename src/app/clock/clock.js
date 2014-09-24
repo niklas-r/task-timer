@@ -11,9 +11,6 @@
    *                                   down
    * @property {number} time           Tracked time
    * @property {string} state          State of the Clock
-   * @property {number} startTimestamp A timestamp which tells us when the clock
-   *                                   was started.
-   * @property {object} intervalId     ID of the internal interval
    */
 
   /**
@@ -22,111 +19,104 @@
    * @ngInject
    * @return {Clock} clock class
    */
-  function ClockFactory ($rootScope) {
-    var _intervalDelay;
+  function clockFactory ($rootScope) {
+    return function clockConstructor(settings) {
+      var _intervalDelay,
+        _startTimestamp,
+        _intervalId,
+        _settings,
+        clock;
 
-    /**
-     * Creates a new Clock.
-     *
-     * @constructor
-     * @param {string} label    A descriptive label
-     * @param {boolean} countUp Indicates wether the clock counts up or down
-     */
-    function Clock (label, countUp) {
-      this.label = label;
-      this.countUp = countUp;
-      this.time = 0;
-      this.state = 'stopped';
-      this.startTimestamp = null;
-      this.intervalId = null;
-
-      // Default interval delay
+      // Private
+      _settings = angular.copy(settings);
+      _startTimestamp = null;
+      _intervalId = null;
       _intervalDelay = 200;
-    }
 
-    /** Start ticking time */
-    Clock.prototype.start = function() {
-      var _self,
-          _callTick;
+      // Public object
+      clock = {};
 
-      // Update state
-      this.state = 'ticking';
+      // Public properties
+      clock.label = settings.label;
+      clock.countUp = settings.countUp;
+      clock.time = 0;
+      clock.state = 'stopped';
 
-      // Store this context
-      _self = this;
+      /** Start ticking time */
+      clock.start = function() {
+        var _callTick;
 
-      // Get time at interval start. This will be used when pausing the timer.
-      this.startTimestamp = new Date().getTime();
+        // Update state
+        clock.state = 'ticking';
 
-      _callTick = function () {
+        // Get time at interval start. This will be used when pausing the timer.
+        _startTimestamp = new Date().getTime();
 
-        // Get new time on each tick
-        _self.startTimestamp = new Date().getTime();
+        _callTick = function () {
 
-        // Tick clock
-        /**
-         * NOTE: Why fn.proto.call rather than fn.proto.bind?
-         * According to this jsperf http://jsperf.com/bind-vs-emulate
-         * Bind is about 90% slower than call.
-         */
-        _self.tick.call(_self, 200);
+          // Get new time on each tick
+          _startTimestamp = new Date().getTime();
+
+          // Tick clock
+          clock.tick(200);
+        };
+
+        _intervalId = setInterval(
+          _callTick,
+          _intervalDelay
+        );
       };
 
-      this.intervalId = setInterval(
-        _callTick,
-        _intervalDelay
-      );
+      /**
+       * Tick time
+       * @param  {number} milliseconds Amount of time in milliseconds to be added
+       *                               to clock.time.
+       */
+      clock.tick = function (milliseconds) {
+
+        if ( clock.countUp ) {
+          clock.time += milliseconds;
+        } else {
+          clock.time -= milliseconds;
+        }
+
+        if ( !$rootScope.$$phase ) {
+          $rootScope.$apply();
+        }
+      };
+
+      /**
+       * Pauses a ticking clock
+       */
+      clock.pause = function() {
+        var timeAtPause,
+            timeSinceLastTick;
+
+        // Cancel current interval
+        clearInterval(_intervalId);
+
+        // Update state
+        clock.state = 'paused';
+
+        // Get current time
+        timeAtPause = new Date().getTime();
+
+        timeSinceLastTick = timeAtPause - _startTimestamp;
+
+        clock.tick(timeSinceLastTick);
+      };
+
+      /**
+       * Unpauses a paused clock
+       */
+      clock.unpause = function() {
+        clock.start();
+      };
+
+      return clock;
     };
-
-    /**
-     * Tick time
-     * @param  {number} milliseconds Amount of time in milliseconds to be added
-     *                               to this.time.
-     */
-    Clock.prototype.tick = function (milliseconds) {
-
-      if ( this.countUp ) {
-        this.time += milliseconds;
-      } else {
-        this.time -= milliseconds;
-      }
-
-      if ( !$rootScope.$$phase ) {
-        $rootScope.$apply();
-      }
-    };
-
-    /**
-     * Pauses a ticking clock
-     */
-    Clock.prototype.pause = function() {
-      var timeAtPause,
-          timeSinceLastTick;
-
-      // Cancel current interval
-      clearInterval(this.intervalId);
-
-      // Update state
-      this.state = 'paused';
-
-      // Get current time
-      timeAtPause = new Date().getTime();
-
-      timeSinceLastTick = timeAtPause - this.startTimestamp;
-
-      this.tick(timeSinceLastTick);
-    };
-
-    /**
-     * Unpauses a paused clock
-     */
-    Clock.prototype.unpause = function() {
-      this.start();
-    };
-
-    return Clock;
   }
 
-  app.factory('Clock', ClockFactory);
+  app.factory('clock', clockFactory);
 
 }(angular));

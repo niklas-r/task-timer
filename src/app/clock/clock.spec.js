@@ -4,74 +4,63 @@ describe('module: taskTimer.clock', function () {
 
   beforeEach(module('taskTimer.clock'));
 
-  describe('class: Clock', function () {
+  describe('object: clock', function () {
 
-    function setupClock(Clock, countUp) {
-      return new Clock(
-        'Writing tests', // label
-        countUp // countUp
-      );
+    function setupClock(clock, settings) {
+      return clock(settings);
     }
 
-    function setupClockIncrease (Clock) {
-      return setupClock(Clock, true);
+    function setupClockIncrease (clock) {
+      return setupClock(clock, {
+        label: 'Count up clock',
+        countUp: true
+      });
     }
 
-    function setupClockDecrease (Clock) {
-      return setupClock(Clock, false);
+    function setupClockDecrease (clock) {
+      return setupClock(clock, {
+        label: 'Count down clock',
+        countUp: false
+      });
     }
-
-    it('should be a "class"', inject (function (Clock) {
-      var clock;
-
-      clock = setupClockIncrease(Clock);
-
-      expect(clock).to.be.an.instanceof(Clock);
-    }));
 
     describe('properties', function () {
       it('should have a label', inject(
-        function (Clock) {
-          var clock;
+        function (_clock_) {
+          var clockIncrease,
+              clockDecrease;
 
-          clock = setupClockIncrease(Clock);
+          clockIncrease = setupClockIncrease(_clock_);
+          clockDecrease = setupClockDecrease(_clock_);
 
-          expect(clock).to.have.property('label', 'Writing tests');
+          expect(clockIncrease).to.have.property('label', 'Count up clock');
+          expect(clockDecrease).to.have.property('label', 'Count down clock');
         })
       );
 
       it(
         'should be able to count up and down',
-        inject( function (Clock) {
+        inject( function (_clock_) {
           var clockIncrease,
-              clockDecrease ;
+              clockDecrease;
 
-          clockIncrease = setupClockIncrease(Clock);
-          clockDecrease = setupClockDecrease(Clock);
+          clockIncrease = setupClockIncrease(_clock_);
+          clockDecrease = setupClockDecrease(_clock_);
 
           expect(clockIncrease).to.have.property('countUp', true);
           expect(clockDecrease).to.have.property('countUp', false);
-        })
-      );
-
-      it('should have an interval ID', inject(
-        function (Clock) {
-          var clock;
-
-          clock = setupClockIncrease(Clock);
-          expect(clock).to.have.property("intervalId");
         })
       );
     });
 
     describe('actions', function () {
 
-      it('should tick time', inject( function (Clock) {
+      it('should tick time', inject( function (_clock_) {
         var clockIncrease,
             clockDecrease;
 
-        clockIncrease = setupClockIncrease(Clock);
-        clockDecrease = setupClockDecrease(Clock);
+        clockIncrease = setupClockIncrease(_clock_);
+        clockDecrease = setupClockDecrease(_clock_);
 
         clockIncrease.tick(143);
         clockDecrease.tick(143);
@@ -82,10 +71,10 @@ describe('module: taskTimer.clock', function () {
 
       it(
         'should call $apply on each tick',
-        inject(function ($rootScope, Clock) {
+        inject(function ($rootScope, _clock_) {
           var clock;
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
           $rootScope.$apply = sinon.spy();
 
           clock.tick();
@@ -96,11 +85,11 @@ describe('module: taskTimer.clock', function () {
 
       it(
         'should start ticking the time',
-        inject(function (Clock) {
+        inject(function (_clock_) {
           var clock;
           this.clock = sinon.useFakeTimers();
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
 
           clock.start();
           expect(clock.time).to.equal(0);
@@ -115,27 +104,11 @@ describe('module: taskTimer.clock', function () {
         })
       );
 
-      it('should keep track of when clock was started', inject(
-        function (Clock) {
-          var clock;
-
-          this.clock = sinon.useFakeTimers(1500);
-          clock = setupClockIncrease(Clock);
-
-          clock.start();
-          expect(clock.startTimestamp).to.equal(1500);
-          this.clock.tick(200);
-          expect(clock.startTimestamp).to.equal(1700);
-
-          this.clock.restore();
-        })
-      );
-
       it('should pause ticking a started clock', inject(
-        function (Clock) {
+        function (_clock_) {
           var clock;
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
           this.clock = sinon.useFakeTimers();
 
           clock.start();
@@ -153,11 +126,11 @@ describe('module: taskTimer.clock', function () {
       );
 
       it('should unpause a paused clock', inject(
-        function (Clock) {
+        function (_clock_) {
           var clock;
 
           this.clock = sinon.useFakeTimers();
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
 
           // Start clock
           clock.start();
@@ -189,19 +162,19 @@ describe('module: taskTimer.clock', function () {
     describe('states', function () {
 
       it('should have stopped state', inject(
-        function (Clock) {
+        function (_clock_) {
           var clock;
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
           expect(clock.state).to.equal('stopped');
         })
       );
 
       it('should have ticking state', inject(
-        function (Clock) {
+        function (_clock_) {
           var clock;
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
 
           clock.start();
 
@@ -210,10 +183,10 @@ describe('module: taskTimer.clock', function () {
       );
 
       it('should have paused state', inject(
-        function (Clock) {
+        function (_clock_) {
           var clock;
 
-          clock = setupClockIncrease(Clock);
+          clock = setupClockIncrease(_clock_);
 
           clock.start();
           clock.pause();
