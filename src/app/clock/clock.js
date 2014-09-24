@@ -4,22 +4,24 @@
 
   app = angular.module('taskTimer.clock', []);
   /**
-   * The Clock class
-   * @typedef {object} Clock
-   * @property {string} label          A descriptive label
-   * @property {boolean} countUp       Indicates wether the clock counts up or
-   *                                   down
-   * @property {number} time           Tracked time
-   * @property {string} state          State of the Clock
-   */
-
-  /**
    * A clock factory from which new clocks can be instantiated
    * @param {angular.$rootScope} $rootScope
    * @ngInject
-   * @return {Clock} clock class
+   * @return {clock}
    */
   function clockFactory ($rootScope) {
+    /**
+     * The clock settings object
+     * @typedef {object} clockSettings
+     * @property {string} label          A descriptive label
+     * @property {boolean} countUp       Indicates wether the clock counts up or
+     *                                   down
+     */
+
+    /**
+     * clock constructor
+     * @param  {clockSettings} clock settings object
+     */
     return function clockConstructor(settings) {
       var _intervalDelay,
         _startTimestamp,
@@ -33,13 +35,28 @@
       _intervalId = null;
       _intervalDelay = 200;
 
-      // Public object
+      /**
+       * Public clock object
+       * @namespace
+       */
       clock = {};
 
-      // Public properties
+      /** @type {clockSettings.label} */
       clock.label = settings.label;
+
+      /** @type {clockSettings.countUp} */
       clock.countUp = settings.countUp;
+
+      /**
+       * Tracked time
+       * @type {number}
+       */
       clock.time = 0;
+
+      /**
+       * Clock state
+       * @type {string}
+       */
       clock.state = 'stopped';
 
       /** Start ticking time */
@@ -69,8 +86,8 @@
 
       /**
        * Tick time
-       * @param  {number} milliseconds Amount of time in milliseconds to be added
-       *                               to clock.time.
+       * @param {number} milliseconds Amount of time in milliseconds to be added
+       *                              to clock.time.
        */
       clock.tick = function (milliseconds) {
 
