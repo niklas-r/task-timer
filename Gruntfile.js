@@ -74,7 +74,7 @@ module.exports = function ( grunt ) {
             cwd: 'src/assets',
             expand: true
           }
-       ]
+        ]
       },
       build_vendor_assets: {
         files: [
@@ -85,7 +85,7 @@ module.exports = function ( grunt ) {
             expand: true,
             flatten: true
           }
-       ]
+        ]
       },
       build_appjs: {
         files: [
@@ -155,10 +155,10 @@ module.exports = function ( grunt ) {
     },
 
     /**
-     * `ng-min` annotates the sources before minifying. That is, it allows us
-     * to code without the array syntax.
+     * `ng-annotate` annotates the sources before minifying. That is, it allows
+     * us to code without the array syntax.
      */
-    ngmin: {
+    ngAnnotate: {
       compile: {
         files: [
           {
@@ -201,6 +201,7 @@ module.exports = function ( grunt ) {
           '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
         },
         options: {
+          banner: '<%= meta.banner %>',
           cleancss: true,
           compress: true
         }
@@ -210,7 +211,7 @@ module.exports = function ( grunt ) {
     /**
      * `jshint` defines the rules of our linter as well as which files we
      * should check. This file, all javascript sources, and all our unit tests
-     * are linted based on the policies listed in `options`. But we can also
+     * are linted based on the policies listed in the file `.jshintrc`. But we can also
      * specify exclusionary patterns by prefixing them with an exclamation
      * point (!); this is useful when code comes from a third party but is
      * nonetheless inside `src/`.
@@ -226,47 +227,7 @@ module.exports = function ( grunt ) {
         'Gruntfile.js'
       ],
       options: {
-        boss: true,
-        curly: true,
-        eqnull: true,
-        es5: true,
-        expr: true,
-        globalstrict: true,
-        immed: true,
-        newcap: true,
-        noarg: true,
-        strict: true,
-        sub: true,
-        devel: true,
-        browser: true,
-        jquery: true,
-        globals: {
-          // Angular
-          angular: true,
-          // Underscore / Lodash
-          _: true,
-          // AMD
-          require: true,
-          define: true,
-          // Angular mocks
-          module: true,
-          inject: true,
-          // Sinon
-          sinon: true,
-          // Mocha
-          before: true,
-          beforeEach: true,
-          after: true,
-          afterEach: true,
-          describe: true,
-          ddescribe: true,
-          xdescribe: true,
-          it: true,
-          iit: true,
-          xit: true,
-          expect: true,
-          done: true
-        }
+        jshintrc: '.jshintrc'
       }
     },
 
@@ -501,7 +462,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   /**
@@ -538,7 +499,7 @@ module.exports = function ( grunt ) {
     });
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
-      process: function ( contents, path ) {
+      process: function ( contents ) {
         return grunt.template.process( contents, {
           data: {
             scripts: jsFiles,
@@ -559,7 +520,7 @@ module.exports = function ( grunt ) {
     var jsFiles = filterForJS( this.filesSrc );
 
     grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', {
-      process: function ( contents, path ) {
+      process: function ( contents ) {
         return grunt.template.process( contents, {
           data: {
             scripts: jsFiles

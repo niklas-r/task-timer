@@ -1,11 +1,10 @@
 (function (angular) {
   'use strict';
-  var mod,
-      millisecondsToTimeStringFilter;
 
-  mod = angular.module('taskTimer.common.millisecondsToTimeString', []);
+  angular.module('taskTimer.common.millisecondsToTimeString', [])
+    .filter('millisecondsToTimeString', millisecondsToTimeStringFilter);
 
-  millisecondsToTimeStringFilter = function () {
+  function millisecondsToTimeStringFilter() {
     return function (input) {
       var formattedTimeString,
           MS_IN_ONE_HOUR,
@@ -37,8 +36,6 @@
 
       return formattedTimeString.join(':');
     };
-  };
-
-  mod.filter('millisecondsToTimeString', millisecondsToTimeStringFilter);
+  }
 
 }(angular));
