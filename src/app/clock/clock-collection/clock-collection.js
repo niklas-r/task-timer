@@ -2,7 +2,7 @@
   'use strict';
   var clockCollectionModule;
 
-  clockCollectionModule = angular.module('taskTimer.clockCollection', [
+  clockCollectionModule = angular.module('taskTimer.clock.collection', [
     'taskTimer.clock.stopWatch'
   ]);
 
@@ -40,8 +40,7 @@
      * @return {clock} Removed clock
      */
     clockCollection.remove = function (clock) {
-      var index,
-          removedItems;
+      var index;
 
       index = clockCollection.collection.indexOf(clock);
 

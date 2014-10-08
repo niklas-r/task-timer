@@ -1,7 +1,8 @@
-describe('module: taskTimer.clockCollection', function () {
+/* jshint expr: true */
+describe('module: taskTimer.clock.collection', function () {
   'use strict';
 
-  beforeEach(module('taskTimer.clockCollection'));
+  beforeEach(module('taskTimer.clock.collection'));
 
   describe('service: clockCollection', function () {
     var stubStopWatch;
