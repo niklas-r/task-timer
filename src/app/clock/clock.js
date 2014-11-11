@@ -4,6 +4,7 @@
 
   clockModule = angular.module('taskTimer.clock', []);
 
+  clockModule.factory('clock', clockFactory);
   /**
    * A clock factory from which new clocks can be instantiated
    * @param {angular.$rootScope} $rootScope
@@ -12,6 +13,10 @@
    * @return {clock}
    */
   function clockFactory ($rootScope, timer) {
+    var api;
+
+    api = {};
+
     /**
      * The clock settings object
      * @typedef {object} clockSettings
@@ -24,49 +29,27 @@
      * clock constructor
      * @param  {clockSettings} clock settings object
      */
-    return function clockConstructor(settings) {
+    api.create = function (settings) {
       var _intervalDelay,
         _startTimestamp,
         _intervalId,
-        _settings,
+        _state,
+        _timer,
         clock;
 
       // Private
-      _settings = angular.copy(settings);
       _startTimestamp = null;
       _intervalId = null;
       _intervalDelay = 200;
-
-      /**
-       * Public clock object
-       * @namespace
-       */
-      clock = {};
-
-      /** @type {clockSettings.label} */
-      clock.label = settings.label;
-
-      /** @type {clockSettings.countUp} */
-      clock.countUp = settings.countUp;
-
-      /**
-       * Tracked time
-       * @type {number}
-       */
-      clock.time = timer.create();
-
-      /**
-       * Clock state
-       * @type {string}
-       */
-      clock.state = 'stopped';
+      _state = 'stopped';
+      _timer = timer.create();
 
       /** Start ticking time */
-      clock.start = function() {
+      function startClock() {
         var _callTick;
 
         // Update state
-        clock.state = 'ticking';
+        _state = 'ticking';
 
         // Get time at interval start. This will be used when pausing the timer.
         _startTimestamp = new Date().getTime();
@@ -77,66 +60,102 @@
           _startTimestamp = new Date().getTime();
 
           // Tick clock
-          clock.tick(200);
+          tickClock(200);
         };
 
         _intervalId = setInterval(
           _callTick,
           _intervalDelay
         );
-      };
+      }
 
       /**
        * Tick time
        * @param {number} milliseconds Amount of time in milliseconds to be added
-       *                              to clock.time.ms
+       *                              to clock.timer.ms
        */
-      clock.tick = function (milliseconds) {
+      function tickClock (milliseconds) {
 
-        if ( clock.countUp ) {
-          clock.time.ms += milliseconds;
+        if ( settings.countUp ) {
+          _timer.ms += milliseconds;
         } else {
-          clock.time.ms -= milliseconds;
+          _timer.ms -= milliseconds;
         }
 
         // TODO: Replace this with $evalAsync because checking $$phase is hacky
         if ( !$rootScope.$$phase ) {
           $rootScope.$apply();
         }
-      };
 
-      /**
-       * Pauses a ticking clock
-       */
-      clock.pause = function() {
+      }
+
+      /** Pauses a ticking clock */
+      function pauseClock () {
         var timeAtPause,
             timeSinceLastTick;
 
         // Cancel current interval
-        clearInterval(_intervalId);
+        window.clearInterval(_intervalId);
 
         // Update state
-        clock.state = 'paused';
+        _state = 'paused';
 
         // Get current time
         timeAtPause = new Date().getTime();
 
         timeSinceLastTick = timeAtPause - _startTimestamp;
 
-        clock.tick(timeSinceLastTick);
-      };
+        tickClock(timeSinceLastTick);
+      }
 
       /**
-       * Unpauses a paused clock
+       * Public clock object
+       * @namespace
        */
-      clock.unpause = function() {
-        clock.start();
+      clock = {
+
+        /** @type {clockSettings.label} */
+        get label() {
+          return settings.label;
+        },
+
+        // /** @type {clockSettings.countUp} */
+        // get countUp() {
+        //   return settings.countUp;
+        // },
+
+        /**
+         * Clock state
+         * @type {string}
+         */
+        get state() {
+          return _state;
+        },
+
+        /**
+         * Tracked time
+         * @type {timer}
+         */
+        get timer() {
+          return _timer;
+        },
+
+        start: startClock,
+
+        tick: tickClock,
+
+        pause: pauseClock,
+
+        unpause: startClock
       };
 
-      return clock;
+      return Object.seal(clock);
     };
+
+    return api;
   }
 
+  clockModule.factory('timer', timerFactory);
   /**
    * Timer factory
    * @return {timer}
@@ -190,7 +209,6 @@
           _time;
 
       _time = {
-        __constructor__: 'timer',
         hr: 0,
         min: 0,
         sec: 0,
@@ -272,8 +290,5 @@
 
     return api;
   }
-
-  clockModule.factory('clock', clockFactory);
-  clockModule.factory('timer', timerFactory);
 
 }(angular));
