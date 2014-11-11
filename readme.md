@@ -13,6 +13,6 @@ $ bower install
 $ grunt watch
 ```
 
-Finally, open `file:///path/to/task-timer/build/index.html` in your browser.
+Finally, open `http://localhost:9000/` in your browser.
 
 See [ngBp](https://github.com/ngbp/ngbp/tree/v0.3.2-release) for more info
