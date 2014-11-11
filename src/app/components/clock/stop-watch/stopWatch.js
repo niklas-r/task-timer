@@ -13,6 +13,9 @@
    * @return {stopWatch}
    */
   function stopWatchFactory (clock) {
+    var api;
+
+    api = {};
 
     /**
      * The stop watch settings object
@@ -25,22 +28,17 @@
      * @param  {stopWatchSettings}
      * @return {stopWatch}
      */
-    return function stopWatchConstructor (settings) {
-      var _settings,
-          stopWatch;
+    api.create = function createStopWatch (settings) {
+      var stopWatch;
 
-      _settings = angular.copy(settings);
-      _settings.countUp = true;
+      settings.countUp = true;
 
-      /**
-       * Stop watch
-       * @namespace
-       */
-      stopWatch = clock(_settings);
+      stopWatch = clock.create(settings);
 
       return stopWatch;
     };
 
+    return api;
   }
 
   stopWatchModule.factory('stopWatch', stopWatchFactory);
