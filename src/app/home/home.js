@@ -1,17 +1,15 @@
 (function (angular) {
   'use strict';
-  var homeModule,
-      homeConfig,
-      HomeController;
+  var homeModule;
 
   homeModule = angular.module('taskTimer.home', [
-    'taskTimer.clockCollection',
-    'taskTimer.common.millisecondsToTimeString',
+    'taskTimer.stopWatch',
     'ui.router'
   ]);
 
+  homeModule.config(homeConfig);
   // @ngInject
-  homeConfig = function ($stateProvider) {
+  function homeConfig ($stateProvider) {
     $stateProvider.state('home', {
       url: '/home',
       views: {
@@ -21,10 +19,11 @@
         }
       }
     });
-  };
+  }
 
+  homeModule.controller('HomeController', HomeController);
   // @ngInject
-  HomeController = function ($scope, clockCollection) {
+  function HomeController($scope, clockCollection) {
     var vm;
 
     vm = this;
@@ -48,8 +47,6 @@
     $scope.$watch(function () { return clockCollection.collection; }, function (newCollection) {
       vm.clockCollection = newCollection;
     });
-  };
+  }
 
-  homeModule.config(homeConfig);
-  homeModule.controller('HomeController', HomeController);
 }(angular));

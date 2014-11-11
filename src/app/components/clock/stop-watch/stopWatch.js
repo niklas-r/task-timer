@@ -17,23 +17,10 @@
 
     api = {};
 
-    /**
-     * The stop watch settings object
-     * @typedef {object} stopWatchSettings
-     * @property {clockSettings.label}
-     */
-
-    /**
-     * Stop watch constructor
-     * @param  {stopWatchSettings}
-     * @return {stopWatch}
-     */
-    api.create = function createStopWatch (settings) {
+    api.create = function createStopWatch () {
       var stopWatch;
 
-      settings.countUp = true;
-
-      stopWatch = clock.create(settings);
+      stopWatch = clock.create({ countUp: true });
 
       return stopWatch;
     };

@@ -53,7 +53,7 @@
       }
     }
 
-    api.create = function () {
+    api.create = function createTimer() {
       var timeObject,
           _time;
 

@@ -14,14 +14,12 @@ describe('module: taskTimer.clock', function () {
 
     function setupClockIncrease (clock) {
       return setupClock(clock, {
-        label: 'Count up clock',
         countUp: true
       });
     }
 
     function setupClockDecrease (clock) {
       return setupClock(clock, {
-        label: 'Count down clock',
         countUp: false
       });
     }
@@ -39,25 +37,6 @@ describe('module: taskTimer.clock', function () {
     }
 
     describe('properties', function () {
-
-      it('should have a label', function () {
-
-        module(function ($provide) {
-          provideTimeObjectMock($provide);
-        });
-
-        inject(function (_clock_) {
-          var clockIncrease,
-              clockDecrease;
-
-          clockIncrease = setupClockIncrease(_clock_);
-          clockDecrease = setupClockDecrease(_clock_);
-
-          expect(clockIncrease).to.have.property('label', 'Count up clock');
-          expect(clockDecrease).to.have.property('label', 'Count down clock');
-        });
-
-      });
 
       it('should use timer to track time', function () {
 

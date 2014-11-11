@@ -25,7 +25,7 @@ describe('module: taskTimer.stopWatch', function () {
       inject(function (stopWatch) {
         var sw;
 
-        sw = stopWatch.create({ label: 'Test' });
+        sw = stopWatch.create();
 
         expect(stopWatch.create).to.be.a('function');
       });
@@ -40,12 +40,9 @@ describe('module: taskTimer.stopWatch', function () {
       inject(function (clock, stopWatch) {
         var sw;
 
-        sw = stopWatch.create({
-          label: 'My Stopwatch'
-        });
+        sw = stopWatch.create();
 
         expect(clock.create).to.have.been.calledWith({
-          label: 'My Stopwatch',
           countUp: true
         });
       });

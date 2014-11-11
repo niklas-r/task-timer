@@ -12,7 +12,7 @@
    * @param {angular.$rootScope} $rootScope
    * @param {timer} timer
    * @ngInject
-   * @return {clock}
+   * @return {object}
    */
   function clockFactory ($rootScope, timer) {
     var api;
@@ -22,7 +22,6 @@
     /**
      * The clock settings object
      * @typedef {object} clockSettings
-     * @property {string} label          A descriptive label
      * @property {boolean} countUp       Indicates wether the clock counts up or
      *                                   down
      */
@@ -31,8 +30,9 @@
      * clock constructor
      * @param  {clockSettings} clock settings object
      */
-    api.create = function (settings) {
+    api.create = function createClock(settings) {
       var _intervalDelay,
+        _countUp,
         _startTimestamp,
         _intervalId,
         _state,
@@ -45,6 +45,7 @@
       _intervalDelay = 200;
       _state = 'stopped';
       _timer = timer.create();
+      _countUp = settings.countUp;
 
       /** Start ticking time */
       function startClock() {
@@ -78,7 +79,7 @@
        */
       function tickClock (milliseconds) {
 
-        if ( settings.countUp ) {
+        if ( _countUp ) {
           _timer.ms += milliseconds;
         } else {
           _timer.ms -= milliseconds;
@@ -115,11 +116,6 @@
        * @namespace
        */
       clock = {
-
-        /** @type {clockSettings.label} */
-        get label() {
-          return settings.label;
-        },
 
         /**
          * Clock state
