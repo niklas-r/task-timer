@@ -1,5 +1,5 @@
 /* jshint expr: true */
-describe('module: taskTimer.clock.collection', function () {
+xdescribe('module: taskTimer.clock.collection', function () {
   'use strict';
 
   beforeEach(module('taskTimer.clock.collection'));

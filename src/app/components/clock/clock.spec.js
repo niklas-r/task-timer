@@ -1,25 +1,25 @@
 /* jshint expr: true */
 'use strict';
 
-describe('module: taskTimer.clock', function () {
+describe('module: taskTimer.timer', function () {
 
-  beforeEach(module('taskTimer.clock'));
+  beforeEach(module('taskTimer.timer'));
 
-  describe('model: clock', function () {
+  describe('model: timer', function () {
     var timeTrackerStub;
 
-    function setupClock(clock, settings) {
-      return clock.create(settings);
+    function setupTimer(timer, settings) {
+      return timer.create(settings);
     }
 
-    function setupClockIncrease (clock) {
-      return setupClock(clock, {
+    function setupTimerIncrease (timer) {
+      return setupTimer(timer, {
         countUp: true
       });
     }
 
-    function setupClockDecrease (clock) {
-      return setupClock(clock, {
+    function setupTimerDecrease (timer) {
+      return setupTimer(timer, {
         countUp: false
       });
     }
@@ -44,12 +44,12 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
 
-          expect(clock.trackedTime).to.eql({
+          expect(timer.trackedTime).to.eql({
             ms: 0
           });
         });
@@ -65,13 +65,13 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function ($rootScope, _clock_) {
-          var clock;
+        inject(function ($rootScope, _timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
           $rootScope.$apply = sinon.spy();
 
-          clock.tick();
+          timer.tick();
 
           expect($rootScope.$apply).to.have.been.calledOnce;
         });
@@ -84,83 +84,83 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
           this.clock = sinon.useFakeTimers();
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
 
-          clock.start();
-          expect(clock.trackedTime.ms).to.equal(0);
-
-          this.clock.tick(200);
-          expect(clock.trackedTime.ms).to.equal(200);
+          timer.start();
+          expect(timer.trackedTime.ms).to.equal(0);
 
           this.clock.tick(200);
-          expect(clock.trackedTime.ms).to.equal(400);
+          expect(timer.trackedTime.ms).to.equal(200);
+
+          this.clock.tick(200);
+          expect(timer.trackedTime.ms).to.equal(400);
 
           this.clock.restore();
         });
       });
 
-      it('should pause ticking a started clock', function () {
+      it('should pause ticking a started timer', function () {
 
         module(function ($provide) {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
           this.clock = sinon.useFakeTimers();
 
-          clock.start();
+          timer.start();
           this.clock.tick(554);
-          clock.pause();
+          timer.pause();
 
-          expect(clock.trackedTime.ms).to.equal(554);
+          expect(timer.trackedTime.ms).to.equal(554);
 
           this.clock.tick(100);
 
-          expect(clock.trackedTime.ms).to.equal(554);
+          expect(timer.trackedTime.ms).to.equal(554);
 
           this.clock.restore();
         });
       });
 
-      it('should unpause a paused clock', function () {
+      it('should unpause a paused timer', function () {
 
         module(function ($provide) {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
           this.clock = sinon.useFakeTimers();
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
 
-          // Start clock
-          clock.start();
+          // Start timer
+          timer.start();
           // Should be zero on init
-          expect(clock.trackedTime.ms).to.equal(0);
+          expect(timer.trackedTime.ms).to.equal(0);
           // Tick some time
           this.clock.tick(554);
           // On pause it should always update time
-          clock.pause();
+          timer.pause();
           // So expect it
-          expect(clock.trackedTime.ms).to.equal(554);
+          expect(timer.trackedTime.ms).to.equal(554);
           // Time should not be added when paused and ticking
           this.clock.tick(600);
           // Expect it
-          expect(clock.trackedTime.ms).to.equal(554);
+          expect(timer.trackedTime.ms).to.equal(554);
           // Unpause
-          clock.unpause();
+          timer.unpause();
           // Now time should be added
           this.clock.tick(200);
           // Expect it
-          expect(clock.trackedTime.ms).to.equal(754);
+          expect(timer.trackedTime.ms).to.equal(754);
 
           this.clock.restore();
         });
@@ -172,28 +172,28 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject( function (_clock_) {
-          var clockIncrease,
-              clockDecrease;
+        inject( function (_timer_) {
+          var timerIncrease,
+              timerDecrease;
 
           this.clock = sinon.useFakeTimers();
 
           timeTrackerStub.create.returns({ ms: 0 });
-          clockIncrease = setupClockIncrease(_clock_);
+          timerIncrease = setupTimerIncrease(_timer_);
 
           timeTrackerStub.create.returns({ ms: 0 });
-          clockDecrease = setupClockDecrease(_clock_);
+          timerDecrease = setupTimerDecrease(_timer_);
 
-          clockIncrease.start();
-          clockDecrease.start();
+          timerIncrease.start();
+          timerDecrease.start();
 
           this.clock.tick(432);
 
-          clockIncrease.pause();
-          clockDecrease.pause();
+          timerIncrease.pause();
+          timerDecrease.pause();
 
-          expect(clockIncrease.trackedTime.ms).to.equal(432);
-          expect(clockDecrease.trackedTime.ms).to.equal(-432);
+          expect(timerIncrease.trackedTime.ms).to.equal(432);
+          expect(timerDecrease.trackedTime.ms).to.equal(-432);
 
           this.clock.reset();
         });
@@ -209,11 +209,11 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
-          expect(clock.state).to.equal('stopped');
+          timer = setupTimerIncrease(_timer_);
+          expect(timer.state).to.equal('stopped');
         });
 
       });
@@ -224,14 +224,14 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
 
-          clock.start();
+          timer.start();
 
-          expect(clock.state).to.equal('ticking');
+          expect(timer.state).to.equal('ticking');
         });
 
       });
@@ -242,15 +242,15 @@ describe('module: taskTimer.clock', function () {
           provideTimeObjectMock($provide);
         });
 
-        inject(function (_clock_) {
-          var clock;
+        inject(function (_timer_) {
+          var timer;
 
-          clock = setupClockIncrease(_clock_);
+          timer = setupTimerIncrease(_timer_);
 
-          clock.start();
-          clock.pause();
+          timer.start();
+          timer.pause();
 
-          expect(clock.state).to.equal('paused');
+          expect(timer.state).to.equal('paused');
         });
 
       });

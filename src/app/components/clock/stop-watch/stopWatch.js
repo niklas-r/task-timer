@@ -2,17 +2,17 @@
   'use strict';
   var stopWatchModule;
 
-  stopWatchModule = angular.module('taskTimer.clock.stopWatch', [
-    'taskTimer.clock'
+  stopWatchModule = angular.module('taskTimer.timer.stopWatch', [
+    'taskTimer.timer'
   ]);
 
   /**
    * Stop watch factory
-   * @param {clock}
+   * @param {timer} timer
    * @ngInject
    * @return {stopWatch}
    */
-  function stopWatchFactory (clock) {
+  function stopWatchFactory (timer) {
     var api;
 
     api = {};
@@ -20,7 +20,7 @@
     api.create = function createStopWatch () {
       var stopWatch;
 
-      stopWatch = clock.create({ countUp: true });
+      stopWatch = timer.create({ countUp: true });
 
       return stopWatch;
     };

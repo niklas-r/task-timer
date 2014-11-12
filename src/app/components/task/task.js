@@ -3,7 +3,7 @@
   var taskModule;
 
   taskModule = angular.module('taskTimer.task', [
-    'taskTimer.clock.stopWatch'
+    'taskTimer.timer.stopWatch'
   ]);
 
   taskModule.factory('task', taskFactory);

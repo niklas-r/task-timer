@@ -1,25 +1,25 @@
 'use strict';
 
-describe('module: taskTimer.stopWatch', function () {
+describe('module: taskTimer.timer.stopWatch', function () {
 
-  beforeEach(module('taskTimer.clock.stopWatch'));
+  beforeEach(module('taskTimer.timer.stopWatch'));
 
   describe('model: stopWatch', function () {
-    var provideClockStub,
-        clockStub;
+    var provideTimerStub,
+        timerStub;
 
-    function provideClockStub($provide) {
+    function provideTimerStub($provide) {
 
-      clockStub = {
+      timerStub = {
         create: sinon.stub()
       };
 
-      $provide.value('clock', clockStub);
+      $provide.value('timer', timerStub);
     }
 
     it('should have create a stop watch', function () {
       module(function ($provide) {
-        provideClockStub($provide);
+        provideTimerStub($provide);
       });
 
       inject(function (stopWatch) {
@@ -31,18 +31,18 @@ describe('module: taskTimer.stopWatch', function () {
       });
     });
 
-    it('should call clock constructor with correct settings', function () {
+    it('should call timer constructor with correct settings', function () {
 
       module(function ($provide) {
-        provideClockStub($provide);
+        provideTimerStub($provide);
       });
 
-      inject(function (clock, stopWatch) {
+      inject(function (timer, stopWatch) {
         var sw;
 
         sw = stopWatch.create();
 
-        expect(clock.create).to.have.been.calledWith({
+        expect(timer.create).to.have.been.calledWith({
           countUp: true
         });
       });

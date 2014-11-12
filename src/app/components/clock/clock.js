@@ -1,43 +1,43 @@
 (function (angular) {
   'use strict';
-  var clockModule;
+  var timerModule;
 
-  clockModule = angular.module('taskTimer.clock', [
+  timerModule = angular.module('taskTimer.timer', [
     'taskTimer.timeTracker'
   ]);
 
-  clockModule.factory('clock', clockFactory);
+  timerModule.factory('timer', timerFactory);
   /**
-   * A clock factory from which new clocks can be instantiated
+   * A timer factory from which new timers can be created
    * @param {angular.$rootScope} $rootScope
    * @param {timeTracker} timeTracker
    * @ngInject
    * @return {object}
    */
-  function clockFactory ($rootScope, timeTracker) {
+  function timerFactory ($rootScope, timeTracker) {
     var api;
 
     api = {};
 
     /**
-     * The clock settings object
-     * @typedef {object} clockSettings
-     * @property {boolean} countUp       Indicates wether the clock counts up or
+     * The timer settings object
+     * @typedef {object} timerSettings
+     * @property {boolean} countUp       Indicates wether the timer counts up or
      *                                   down
      */
 
     /**
-     * clock constructor
-     * @param  {clockSettings} clock settings object
+     * Creates a new timer
+     * @param  {timerSettings} timer settings object
      */
-    api.create = function createClock(settings) {
+    api.create = function createTimer(settings) {
       var _intervalDelay,
         _countUp,
         _startTimestamp,
         _intervalId,
         _state,
         _trackedTime,
-        clock;
+        timer;
 
       // Private
       _startTimestamp = null;
@@ -48,7 +48,7 @@
       _countUp = settings.countUp;
 
       /** Start ticking time */
-      function startClock() {
+      function startTimer() {
         var _callTick;
 
         // Update state
@@ -63,7 +63,7 @@
           _startTimestamp = new Date().getTime();
 
           // Tick clock
-          tickClock(200);
+          tickTimer(200);
         };
 
         _intervalId = setInterval(
@@ -75,9 +75,9 @@
       /**
        * Tick time
        * @param {number} milliseconds Amount of time in milliseconds to be added
-       *                              to clock.timer.ms
+       *                              to timer.trackedTime.ms
        */
-      function tickClock (milliseconds) {
+      function tickTimer (milliseconds) {
 
         if ( _countUp ) {
           _trackedTime.ms += milliseconds;
@@ -93,7 +93,7 @@
       }
 
       /** Pauses a ticking clock */
-      function pauseClock () {
+      function pauseTimer () {
         var timeAtPause,
             timeSinceLastTick;
 
@@ -108,14 +108,14 @@
 
         timeSinceLastTick = timeAtPause - _startTimestamp;
 
-        tickClock(timeSinceLastTick);
+        tickTimer(timeSinceLastTick);
       }
 
       /**
-       * Public clock object
+       * Public timer object
        * @namespace
        */
-      clock = {
+      timer = {
 
         /**
          * Clock state
@@ -133,16 +133,16 @@
           return _trackedTime;
         },
 
-        start: startClock,
+        start: startTimer,
 
-        tick: tickClock,
+        tick: tickTimer,
 
-        pause: pauseClock,
+        pause: pauseTimer,
 
-        unpause: startClock
+        unpause: startTimer
       };
 
-      return Object.seal(clock);
+      return Object.seal(timer);
     };
 
     return api;

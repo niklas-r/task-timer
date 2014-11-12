@@ -1,10 +1,10 @@
 (function (angular) {
   'use strict';
-  var timerModule;
+  var timeTrackerModule;
 
-  timerModule = angular.module('taskTimer.timeTracker', []);
+  timeTrackerModule = angular.module('taskTimer.timeTracker', []);
 
-  timerModule.factory('timeTracker', timeTrackerFactory);
+  timeTrackerModule.factory('timeTracker', timeTrackerFactory);
   /**
    * Timer factory
    * @return {object}
