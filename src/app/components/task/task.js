@@ -32,9 +32,9 @@
     api.create = function createTask(settings) {
       var task,
           _label,
-          _clock;
+          _timer;
 
-      _clock = stopWatch.create();
+      _timer = stopWatch.create();
       _label = settings.label;
 
 
@@ -49,8 +49,8 @@
           return _label;
         },
 
-        get clock() {
-          return _clock;
+        get timer() {
+          return _timer;
         }
 
       };

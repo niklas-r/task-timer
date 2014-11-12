@@ -142,7 +142,7 @@
         unpause: startTimer
       };
 
-      return Object.seal(timer);
+      return timer;
     };
 
     return api;

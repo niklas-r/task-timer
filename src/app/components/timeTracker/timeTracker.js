@@ -134,7 +134,7 @@
         }
       };
 
-      return Object.seal(timeTracker);
+      return timeTracker;
     };
 
     return api;

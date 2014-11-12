@@ -1,19 +1,18 @@
-<h1>home</h1>
+<h1>Task timers :)</h1>
 
-<h2>Testing clocks</h2>
-
-<form name="newCLockForm" ng-submit="homeCtrl.addNewStopWatch(homeCtrl.newClockLabel)">
-  <input type="text" ng-model="homeCtrl.newClockLabel">
+<form name="newCLockForm" ng-submit="homeCtrl.addNewStopWatch(homeCtrl.newTask)">
+  <input type="text" ng-model="homeCtrl.newTask.label">
   <button type="submit">New stopwatch</button>
 </form>
 <ul>
-  <li ng-repeat="clock in homeCtrl.clockCollection">
-    {{clock.label}} - {{clock.time | millisecondsToTimeString}}
-    <div ng-switch on="clock.state">
-      <button ng-switch-when="ticking" ng-click="clock.pause()">Pause</button>
-      <button ng-switch-when="paused" ng-click="clock.unpause()">Unpause</button>
-      <button ng-switch-default ng-click="clock.start()">Start</button>
+  <li ng-repeat="task in homeCtrl.taskCollection">
+    <h4>{{ task.label }}</h4>
+    <p>Time tracked: {{ task.timer.trackedTime.toString() }}</p>
+    <div class="btn-group">
+      <button class="btn btn-default" ng-if="task.timer.state == 'ticking'" ng-click="task.timer.pause()">Pause</button>
+      <button class="btn btn-default" ng-if="task.timer.state == 'paused'" ng-click="task.timer.unpause()">Unpause</button>
+      <button class="btn btn-primary" ng-if="task.timer.state == 'stopped'" ng-click="task.timer.start()">Start</button>
+      <button class="btn btn-danger" ng-click="homeCtrl.removeTask(task)">Remove</button>
     </div>
-    <button ng-click="homeCtrl.removeClock(clock)">Remove</button>
   </li>
 </ul>

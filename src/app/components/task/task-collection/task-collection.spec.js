@@ -5,14 +5,21 @@ describe('module: taskTimer.task.collection', function () {
   beforeEach(module('taskTimer.task.collection'));
 
   describe('factory: taskCollection', function () {
-    var stubStopWatch;
+    var taskStub;
 
-    stubStopWatch = module(function ($provide) {
-      $provide.value('stopWatch', sinon.stub());
-    });
+    function provideTaskStub ($provide) {
+
+      taskStub = {
+        create: sinon.stub()
+      };
+
+      $provide.value('task', taskStub);
+    }
 
     it('should get the collection of tasks', function () {
-      stubStopWatch();
+      module(function ($provide) {
+        provideTaskStub($provide);
+      });
 
       inject(function (taskCollection) {
         expect(taskCollection.collection).to.be.an("array");
@@ -20,31 +27,35 @@ describe('module: taskTimer.task.collection', function () {
     });
 
     it('should add stop watches to the collection', function () {
-      stubStopWatch();
+      module(function ($provide) {
+        provideTaskStub($provide);
+      });
 
-      inject(function (taskCollection, stopWatch) {
+      inject(function (taskCollection, task) {
         var collection;
 
         collection = taskCollection.collection;
         taskCollection.addNewStopWatch('stop watch name');
 
-        expect(stopWatch).to.have.been.calledWithExactly('stop watch name');
+        expect(task.create).to.have.been.calledWithExactly('stop watch name');
         expect(taskCollection.collection.length).to.equal(1);
       });
     });
 
     it('should remove task from collection by reference', function () {
-      stubStopWatch();
+      module(function ($provide) {
+        provideTaskStub($provide);
+      });
 
-      inject(function (taskCollection, stopWatch) {
+      inject(function (taskCollection, task) {
         var collection,
             swToBeRemoved;
 
         collection = taskCollection.collection;
 
-        stopWatch.onFirstCall().returns({label: 'sw1'});
-        stopWatch.onSecondCall().returns({label: 'sw2'});
-        stopWatch.onThirdCall().returns({label: 'sw3'});
+        task.create.onFirstCall().returns({label: 'sw1'});
+        task.create.onSecondCall().returns({label: 'sw2'});
+        task.create.onThirdCall().returns({label: 'sw3'});
 
         taskCollection.addNewStopWatch('sw1');
         taskCollection.addNewStopWatch('sw2');

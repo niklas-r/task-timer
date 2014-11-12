@@ -3,7 +3,7 @@
   var homeModule;
 
   homeModule = angular.module('taskTimer.home', [
-    'taskTimer.stopWatch',
+    'taskTimer.task.collection',
     'ui.router'
   ]);
 
@@ -23,29 +23,32 @@
 
   homeModule.controller('HomeController', HomeController);
   // @ngInject
-  function HomeController($scope, clockCollection) {
+  function HomeController($scope, taskCollection) {
     var vm;
 
     vm = this;
 
-    vm.newClockLabel = '';
-    vm.clockCollection = [];
-
-    vm.addNewStopWatch = function (label) {
-
-      clockCollection.addNewStopWatch({
-        label: label
-      });
-
-      vm.newClockLabel = '';
+    vm.newTask = {
+      label: ''
     };
 
-    vm.removeClock = function (clock) {
-      clockCollection.remove(clock);
+    vm.taskCollection = [];
+
+    vm.addNewStopWatch = function addNewStopWatch(task) {
+
+      taskCollection.addNewStopWatch(task);
+
+      vm.newTask.label = '';
     };
 
-    $scope.$watch(function () { return clockCollection.collection; }, function (newCollection) {
-      vm.clockCollection = newCollection;
+    vm.removeTask = function removeTask(task) {
+      taskCollection.remove(task);
+    };
+
+    $scope.$watch(
+      function () { return taskCollection.collection; },
+      function (newCollection) {
+        vm.taskCollection = newCollection;
     });
   }
 

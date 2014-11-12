@@ -3,16 +3,16 @@
   var taskCollectionModule;
 
   taskCollectionModule = angular.module('taskTimer.task.collection', [
-    'taskTimer.timer.stopWatch'
+    'taskTimer.task'
   ]);
 
   taskCollectionModule.factory('taskCollection', taskCollectionFactory);
   /**
    * Task collection
-   * @param  {stopWatch}
+   * @param {task} task
    * @return {taskCollection}
    */
-  function taskCollectionFactory(stopWatch) {
+  function taskCollectionFactory(task) {
     var taskCollection;
 
     /**
@@ -29,10 +29,12 @@
 
     /**
      * Add a new stop watch to the collection
-     * @param {stopWatchSettings}
+     * @param {taskSettings} taskSettings
      */
-    taskCollection.addNewStopWatch = function (stopWatchSettings) {
-      taskCollection.collection.push(stopWatch(stopWatchSettings));
+    taskCollection.addNewStopWatch = function (taskSettings) {
+
+      taskCollection.collection.push(task.create(taskSettings));
+
     };
 
     /**
