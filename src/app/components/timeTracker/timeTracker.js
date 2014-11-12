@@ -2,14 +2,14 @@
   'use strict';
   var timerModule;
 
-  timerModule = angular.module('taskTimer.timer', []);
+  timerModule = angular.module('taskTimer.timeTracker', []);
 
-  timerModule.factory('timer', timerFactory);
+  timerModule.factory('timeTracker', timeTrackerFactory);
   /**
    * Timer factory
-   * @return {timer}
+   * @return {object}
    */
-  function timerFactory () {
+  function timeTrackerFactory () {
     var api,
         _delimiter,
         MS_IN_ONE_HOUR,
@@ -54,10 +54,10 @@
     }
 
     api.create = function createTimer() {
-      var timeObject,
-          _time;
+      var timeTracker,
+          _timeTrackerModel;
 
-      _time = {
+      _timeTrackerModel = {
         hr: 0,
         min: 0,
         sec: 0,
@@ -65,76 +65,76 @@
       };
 
       /**
-       * Timer object
-       * @typedef {object} timer
+       * Time tracker object
+       * @typedef {object} timeTracker
        * @property {number} hr  Tracked hours
        * @property {number} min Tracked minuters
        * @property {number} sec Tracked seconds
        * @property {number} ms  Tracked milliseconds
        * @function toString Returns a formated string of the tracked time
        */
-      timeObject = {
+      timeTracker = {
         //////////
         // Hour //
         //////////
         get hr() {
-          return _time.hr;
+          return _timeTrackerModel.hr;
         },
         set hr(newHr) {
-          updateTimeProperty('hr', newHr, MS_IN_ONE_HOUR, _time);
+          updateTimeProperty('hr', newHr, MS_IN_ONE_HOUR, _timeTrackerModel);
         },
         ////////////
         // Minute //
         ////////////
         get min() {
-          return _time.min;
+          return _timeTrackerModel.min;
         },
         set min(newMin) {
-          updateTimeProperty('min', newMin, MS_IN_ONE_MINUTE, _time);
+          updateTimeProperty('min', newMin, MS_IN_ONE_MINUTE, _timeTrackerModel);
         },
         ////////////
         // Second //
         ////////////
         get sec() {
-          return _time.sec;
+          return _timeTrackerModel.sec;
         },
         set sec(newSec) {
-          updateTimeProperty('sec', newSec, MS_IN_ONE_SECOND, _time);
+          updateTimeProperty('sec', newSec, MS_IN_ONE_SECOND, _timeTrackerModel);
         },
         /////////////////
         // Millisecond //
         /////////////////
         get ms() {
-          return _time.ms;
+          return _timeTrackerModel.ms;
         },
         set ms(newMs) {
-          _time.ms = newMs;
+          _timeTrackerModel.ms = newMs;
 
           // Convert tracked milliseconds to hours
-          _time.hr = Math.floor(newMs / MS_IN_ONE_HOUR);
+          _timeTrackerModel.hr = Math.floor(newMs / MS_IN_ONE_HOUR);
           // Subtract tracked hours (in ms) from newly added ms
-          newMs -= ( _time.hr * MS_IN_ONE_HOUR );
+          newMs -= ( _timeTrackerModel.hr * MS_IN_ONE_HOUR );
 
           // Continue to convert and set whole minutes
-          _time.min = Math.floor(newMs / MS_IN_ONE_MINUTE);
+          _timeTrackerModel.min = Math.floor(newMs / MS_IN_ONE_MINUTE);
           // Subtract tracked minutes (in ms)
-          newMs -= ( _time.min * MS_IN_ONE_MINUTE );
+          newMs -= ( _timeTrackerModel.min * MS_IN_ONE_MINUTE );
 
           // Finally convert rest of milliseconds to whole seconds
-          _time.sec = Math.floor(newMs / MS_IN_ONE_SECOND);
+          _timeTrackerModel.sec = Math.floor(newMs / MS_IN_ONE_SECOND);
         },
         toString: function () {
           return (
-            padNum(_time.hr) +
+            padNum(_timeTrackerModel.hr) +
             _delimiter +
-            padNum(_time.min) +
+            padNum(_timeTrackerModel.min) +
             _delimiter +
-            padNum(_time.sec)
+            padNum(_timeTrackerModel.sec)
           );
         }
       };
 
-      return Object.seal(timeObject);
+      return Object.seal(timeTracker);
     };
 
     return api;

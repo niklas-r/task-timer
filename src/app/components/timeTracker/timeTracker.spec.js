@@ -1,14 +1,14 @@
 'use strict';
 
-describe('module: taskTimer.timer', function() {
+describe('module: taskTimer.timeTracker', function() {
 
-  beforeEach(module('taskTimer.timer'));
+  beforeEach(module('taskTimer.timeTracker'));
 
-  describe('model: timer', function () {
+  describe('model: timeTracker', function () {
 
     it('it should have properties representing time', inject(
-      function (timer) {
-        var time = timer.create();
+      function (timeTracker) {
+        var time = timeTracker.create();
 
         expect(time.hr).to.equal(0);
         expect(time.min).to.equal(0);
@@ -19,8 +19,8 @@ describe('module: taskTimer.timer', function() {
     );
 
     it('should provide a string in the format of HH:MM:SS', inject(
-      function (timer) {
-        var time = timer.create();
+      function (timeTracker) {
+        var time = timeTracker.create();
 
         expect(time.toString()).to.equal('00:00:00');
 
@@ -32,12 +32,12 @@ describe('module: taskTimer.timer', function() {
       })
     );
 
-    it('should return new objects on each function call', inject(
-      function (timer) {
+    it('should return new objects on each `create` call', inject(
+      function (timeTracker) {
         var t1, t2;
 
-        t1 = timer.create();
-        t2 = timer.create();
+        t1 = timeTracker.create();
+        t2 = timeTracker.create();
 
         expect(t1).not.to.equal(t2);
       })
@@ -48,8 +48,8 @@ describe('module: taskTimer.timer', function() {
       describe('hours', function () {
 
         it('should auto update ms', inject(
-          function (timer) {
-            var time = timer.create();
+          function (timeTracker) {
+            var time = timeTracker.create();
 
             time.hr = 5;
 
@@ -64,8 +64,8 @@ describe('module: taskTimer.timer', function() {
       describe('minutes', function () {
 
         it('should auto update ms', inject(
-          function (timer) {
-            var time = timer.create();
+          function (timeTracker) {
+            var time = timeTracker.create();
 
             time.min = 4;
 
@@ -80,8 +80,8 @@ describe('module: taskTimer.timer', function() {
       describe('seconds', function () {
 
         it('should auto update ms', inject(
-          function (timer) {
-            var time = timer.create();
+          function (timeTracker) {
+            var time = timeTracker.create();
 
             time.sec = 45;
 
@@ -96,8 +96,8 @@ describe('module: taskTimer.timer', function() {
       describe('milliseconds', function () {
 
         it('should auto update hours, minutes and seconds', inject(
-          function (timer) {
-            var time = timer.create();
+          function (timeTracker) {
+            var time = timeTracker.create();
 
             time.ms = 50972000;
 
@@ -115,8 +115,8 @@ describe('module: taskTimer.timer', function() {
 
       describe('mixed properties', function () {
         it('it should work together', inject(
-          function (timer) {
-            var time = timer.create();
+          function (timeTracker) {
+            var time = timeTracker.create();
 
             time.sec = 45;
             time.min = 50;

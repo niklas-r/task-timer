@@ -6,7 +6,7 @@ describe('module: taskTimer.clock', function () {
   beforeEach(module('taskTimer.clock'));
 
   describe('model: clock', function () {
-    var timerStub;
+    var timeTrackerStub;
 
     function setupClock(clock, settings) {
       return clock.create(settings);
@@ -25,20 +25,20 @@ describe('module: taskTimer.clock', function () {
     }
 
     function provideTimeObjectMock ($provide) {
-      timerStub = {
+      timeTrackerStub = {
         create: sinon.stub()
       };
 
-      timerStub.create.returns({
+      timeTrackerStub.create.returns({
         ms: 0
       });
 
-      $provide.value('timer', timerStub);
+      $provide.value('timeTracker', timeTrackerStub);
     }
 
     describe('properties', function () {
 
-      it('should use timer to track time', function () {
+      it('should track time', function () {
 
         module(function ($provide) {
           provideTimeObjectMock($provide);
@@ -49,7 +49,7 @@ describe('module: taskTimer.clock', function () {
 
           clock = setupClockIncrease(_clock_);
 
-          expect(clock.timer).to.eql({
+          expect(clock.trackedTime).to.eql({
             ms: 0
           });
         });
@@ -91,13 +91,13 @@ describe('module: taskTimer.clock', function () {
           clock = setupClockIncrease(_clock_);
 
           clock.start();
-          expect(clock.timer.ms).to.equal(0);
+          expect(clock.trackedTime.ms).to.equal(0);
 
           this.clock.tick(200);
-          expect(clock.timer.ms).to.equal(200);
+          expect(clock.trackedTime.ms).to.equal(200);
 
           this.clock.tick(200);
-          expect(clock.timer.ms).to.equal(400);
+          expect(clock.trackedTime.ms).to.equal(400);
 
           this.clock.restore();
         });
@@ -119,11 +119,11 @@ describe('module: taskTimer.clock', function () {
           this.clock.tick(554);
           clock.pause();
 
-          expect(clock.timer.ms).to.equal(554);
+          expect(clock.trackedTime.ms).to.equal(554);
 
           this.clock.tick(100);
 
-          expect(clock.timer.ms).to.equal(554);
+          expect(clock.trackedTime.ms).to.equal(554);
 
           this.clock.restore();
         });
@@ -144,23 +144,23 @@ describe('module: taskTimer.clock', function () {
           // Start clock
           clock.start();
           // Should be zero on init
-          expect(clock.timer.ms).to.equal(0);
+          expect(clock.trackedTime.ms).to.equal(0);
           // Tick some time
           this.clock.tick(554);
           // On pause it should always update time
           clock.pause();
           // So expect it
-          expect(clock.timer.ms).to.equal(554);
+          expect(clock.trackedTime.ms).to.equal(554);
           // Time should not be added when paused and ticking
           this.clock.tick(600);
           // Expect it
-          expect(clock.timer.ms).to.equal(554);
+          expect(clock.trackedTime.ms).to.equal(554);
           // Unpause
           clock.unpause();
           // Now time should be added
           this.clock.tick(200);
           // Expect it
-          expect(clock.timer.ms).to.equal(754);
+          expect(clock.trackedTime.ms).to.equal(754);
 
           this.clock.restore();
         });
@@ -178,10 +178,10 @@ describe('module: taskTimer.clock', function () {
 
           this.clock = sinon.useFakeTimers();
 
-          timerStub.create.returns({ ms: 0 });
+          timeTrackerStub.create.returns({ ms: 0 });
           clockIncrease = setupClockIncrease(_clock_);
 
-          timerStub.create.returns({ ms: 0 });
+          timeTrackerStub.create.returns({ ms: 0 });
           clockDecrease = setupClockDecrease(_clock_);
 
           clockIncrease.start();
@@ -192,8 +192,8 @@ describe('module: taskTimer.clock', function () {
           clockIncrease.pause();
           clockDecrease.pause();
 
-          expect(clockIncrease.timer.ms).to.equal(432);
-          expect(clockDecrease.timer.ms).to.equal(-432);
+          expect(clockIncrease.trackedTime.ms).to.equal(432);
+          expect(clockDecrease.trackedTime.ms).to.equal(-432);
 
           this.clock.reset();
         });

@@ -3,18 +3,18 @@
   var clockModule;
 
   clockModule = angular.module('taskTimer.clock', [
-    'taskTimer.timer'
+    'taskTimer.timeTracker'
   ]);
 
   clockModule.factory('clock', clockFactory);
   /**
    * A clock factory from which new clocks can be instantiated
    * @param {angular.$rootScope} $rootScope
-   * @param {timer} timer
+   * @param {timeTracker} timeTracker
    * @ngInject
    * @return {object}
    */
-  function clockFactory ($rootScope, timer) {
+  function clockFactory ($rootScope, timeTracker) {
     var api;
 
     api = {};
@@ -36,7 +36,7 @@
         _startTimestamp,
         _intervalId,
         _state,
-        _timer,
+        _trackedTime,
         clock;
 
       // Private
@@ -44,7 +44,7 @@
       _intervalId = null;
       _intervalDelay = 200;
       _state = 'stopped';
-      _timer = timer.create();
+      _trackedTime = timeTracker.create();
       _countUp = settings.countUp;
 
       /** Start ticking time */
@@ -80,9 +80,9 @@
       function tickClock (milliseconds) {
 
         if ( _countUp ) {
-          _timer.ms += milliseconds;
+          _trackedTime.ms += milliseconds;
         } else {
-          _timer.ms -= milliseconds;
+          _trackedTime.ms -= milliseconds;
         }
 
         // TODO: Replace this with $evalAsync because checking $$phase is hacky
@@ -127,10 +127,10 @@
 
         /**
          * Tracked time
-         * @type {timer}
+         * @type {timeTracker}
          */
-        get timer() {
-          return _timer;
+        get trackedTime() {
+          return _trackedTime;
         },
 
         start: startClock,
